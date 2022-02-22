@@ -159,5 +159,5 @@ class AirQualityBot:
             self.send_tweet(message=message)
 
         except:
-            self.send_tweet(message='Man, something broke. @dansoutner should do something about that')
+            self.send_tweet(message='Man, something broke. @danielsoutner should do something about that')
             raise
