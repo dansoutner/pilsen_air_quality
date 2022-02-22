@@ -30,7 +30,7 @@ NAME_MAPPING = {
 
 
 class AirQualityBot:
-    def __init__(self, credentials, lat='50.042', lon='14.411', mock=False, logger=None):
+    def __init__(self, credentials, lat='49.75', lon='13.42', mock=False, logger=None):
         self.credentials = credentials
         self.lat = lat
         self.lon = lon
@@ -40,7 +40,7 @@ class AirQualityBot:
         self.mock = mock
 
     def get_aqi_data(self):
-        token = self.credentials.AirQualityCredentials.TOKEN
+        token = self.credentials["AirQualityCredentials"]["TOKEN"]
         address = f'http://api.airvisual.com/v2/nearest_city' \
                   f'?lat={self.lat}&lon={self.lon}' \
                   f'&key={token}'
@@ -50,7 +50,7 @@ class AirQualityBot:
         return result
 
     def get_ow_data(self):
-        token = self.credentials.OpenWeatherCredentials.TOKEN
+        token = self.credentials["OpenWeatherCredentials"]["TOKEN"]
         address = f"http://api.openweathermap.org/data/2.5/air_pollution" \
                   f"?lat={self.lat}&lon={self.lon}" \
                   f"&appid={token}"
@@ -65,16 +65,26 @@ class AirQualityBot:
         #  'pm2_5': 26.43,
         #  'pm10': 31.59,
         #  'nh3': 1.58}
-        result = r.json()['list'][0]['components']
+        try:
+            result = r.json()['list'][0]['components']
+        except KeyError:
+            result = {'co': -1,
+              'no': -1,
+              'no2': -1,
+              'o3': -1,
+              'so2': -1,
+              'pm2_5': -1,
+              'pm10': -1,
+              'nh3': -1}
         return result
 
     def send_tweet(self, message):
         if self.mock:
             print(message)
             return
-        oauth_tokens = self.credentials.TwitterCredentials.OAUTH_TOKENS
-        consumer_key = self.credentials.TwitterCredentials.CONSUMER_KEY
-        consumer_secret = self.credentials.TwitterCredentials.CONSUMER_SECRET
+        oauth_tokens = self.credentials["TwitterCredentials"]["OAUTH_TOKENS"]
+        consumer_key = self.credentials["TwitterCredentials"]["CONSUMER_KEY"]
+        consumer_secret = self.credentials["TwitterCredentials"]["CONSUMER_SECRET"]
         payload = {"text": message}
         access_token = oauth_tokens["oauth_token"]
         access_token_secret = oauth_tokens["oauth_token_secret"]
@@ -137,6 +147,7 @@ class AirQualityBot:
         data.index.name = 'stat'
         data = pd.DataFrame(data).T
         data.to_csv('out/tables/current_data.csv', index=False)
+        data.to_csv(f'out/tables/data{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}.csv', index=False)
 
     def run(self):
         try:
@@ -144,8 +155,9 @@ class AirQualityBot:
             ow_data = self.get_ow_data()
             message = self.create_message(aq_data, ow_data)
 
-            self.send_tweet(message=message)
             self.save_data(ow_data, aq_data)
+            self.send_tweet(message=message)
+
         except:
-            self.send_tweet(message='Man, something broke. @janhynek should do something about that')
+            self.send_tweet(message='Man, something broke. @dansoutner should do something about that')
             raise

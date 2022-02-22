@@ -39,7 +39,7 @@ AQI_VALUES = {
 PM25_COMPARISONS = ['PM₂₅ překračuje maximální hodnoty WHO {multiplicator:.1f}x ({pm25:.1f} µg/m3). ',
                     "To je {multiplicator:.1f} násobek maximálního PM₂₅ ({pm25:.1f} µg/m3). "]
 
-AQI_MESSAGES = ["Dnešní kvalita vzduchu v Praze je {aqi} AQI. ",
-                "Dnešní pražský Air Quality Index je {aqi}. ",
-                "Dnes bylo v Praze naměřeno {aqi} AQI. ",
-                "Dnešní kvalita vzduchu v Praze je {aqi}. "]
+AQI_MESSAGES = ["Dnešní kvalita vzduchu v Plzni je {aqi} AQI. ",
+                "Dnešní plzeňský Air Quality Index je {aqi}. ",
+                "Dnes bylo v Plzni naměřeno {aqi} AQI. ",
+                "Dnešní kvalita vzduchu v Plzni je {aqi}. "]

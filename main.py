@@ -1,10 +1,11 @@
-from credentials.credentials import Credentials
-
+from credentials.credentials import *
 from bot.main import AirQualityBot
+
+print(Credentials)
 
 
 def main():
-    bot = AirQualityBot(credentials=Credentials, mock=True)
+    bot = AirQualityBot(credentials=Credentials, mock=False)
     bot.run()
 
 
