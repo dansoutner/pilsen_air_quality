@@ -32,8 +32,8 @@ AQI_VALUES = {
          "V Londýně špinavý vzduch zapříčinil 3500-9400 úmrtí v 2010. ✔️",
          "Špinavý vzduch v Londýně stál zdravotnictví £3.7 miliard v 2010. ✔️"
          ],
-    15: ["Tak hurá ven! ✅", "Takhle to má vypadat ✅", "Doporučený dlouhodobý průměr podle WHO ✅"],
-    0: ["Vsadím se, že fouká 💚", "Lepší, než doporučení WHO! 💚", "To je paráda 💚"]
+    15: ["Tak hurá ven! ✅", "Takhle to má vypadat ✅", "Paráda! ✅", "Doporučený dlouhodobý průměr podle WHO ✅"],
+    5: ["Vsadím se, že fouká 💚", "Lepší, než doporučení WHO! 💚", "To je paráda 💚", "Zhluboka dýchat! 💚"]
 }
 
 PM25_COMPARISONS = ['PM₂₅ překračuje maximální hodnoty WHO {multiplicator:.1f}x ({pm25:.1f} µg/m3). ',
