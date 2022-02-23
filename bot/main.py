@@ -35,7 +35,7 @@ class AirQualityBot:
         self.lat = lat
         self.lon = lon
         if logger is None:
-            logger = create_logger('AirQuality', keboola=False)
+            logger = create_logger('AirQuality')
         self.logger = logger
         self.mock = mock
 
@@ -47,6 +47,7 @@ class AirQualityBot:
         self.logger.info(f'Sending GET to {address}')
         r = requests.get(address)
         result = {"aqi": r.json()['data']['current']['pollution']['aqius']}
+        self.logger.info(result)
         return result
 
     def get_ow_data(self):
@@ -67,15 +68,16 @@ class AirQualityBot:
         #  'nh3': 1.58}
         try:
             result = r.json()['list'][0]['components']
-        except KeyError:
+        except (KeyError, json.JSONDecodeError):
             result = {'co': -1,
-              'no': -1,
-              'no2': -1,
-              'o3': -1,
-              'so2': -1,
-              'pm2_5': -1,
-              'pm10': -1,
-              'nh3': -1}
+                      'no': -1,
+                      'no2': -1,
+                      'o3': -1,
+                      'so2': -1,
+                      'pm2_5': -1,
+                      'pm10': -1,
+                      'nh3': -1}
+        self.logger.info(result)
         return result
 
     def send_tweet(self, message):

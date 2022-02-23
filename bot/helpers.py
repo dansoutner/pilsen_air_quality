@@ -1,12 +1,8 @@
 import logging
-def create_logger(name, level=20, keboola=False):
-    if keboola:
-        class KeboolaLogger:
-            debug = print
-            info = print
-            warning = print
-            error = print
-        return KeboolaLogger
+
+
+def create_logger(name, level=20):
+
     logger = logging.getLogger(name)
     if logger.hasHandlers():
         logger.handlers.clear()
